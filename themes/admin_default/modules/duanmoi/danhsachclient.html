@@ -1,0 +1,40 @@
+<!-- BEGIN: main-->
+    <div class="col-md-24">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                Danh sách tài khoản
+            </div>
+            <div class="panel-body">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th class="text-center">STT</th>
+                            <th class="text-center">Họ và tên</th>
+                            <th class="text-center">Email</th>
+                            <th class="text-center">Số điện thoại</th>
+                            <th class="text-center">Facebook</th>
+                            <th class="text-center">Avatar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- BEGIN: list--> 
+                        <tr>
+                            <th class="text-center">{KEY}</th>
+                            <td class="text-center">{VALUE.ho_va_ten}</td>
+                            <td class="text-center">{VALUE.email}</td>
+                            <td class="text-center">{VALUE.so_dien_thoai}</td>
+                            <td class="text-center">
+                                <a href="{VALUE.link_fb}"><button class="btn btn-info">Facebook --></button></a>
+                            </td>
+                            <td class="text-center">
+                                <img src="{VALUE.hinh_anh}" style="max-width: 100px;">
+                            </td>
+                        </tr>
+                        <!-- END: list--> 
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+ <!-- END: main-->

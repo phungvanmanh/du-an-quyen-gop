@@ -1,0 +1,52 @@
+<!-- BEGIN: main -->
+<style>
+    .table-responsive>.table>tbody>tr>td {
+        vertical-align: middle;
+    }
+
+    .table-responsive>.table>tbody>tr>th {
+        vertical-align: middle;
+    }
+</style>
+<script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js"
+    integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g=="
+    crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<div class="container-fuild">
+    <div class="row">
+        <div class="col-md-24">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Danh Sách Hoạt Động
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table id="table" class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-nowrap">STT</th>
+                                    <th class="text-center text-nowrap">Hành Động</th>
+                                    <th class="text-center text-nowrap">Người Hành Động</th>
+                                    <th class="text-center text-nowrap">Thời gian</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- BEGIN: loop -->
+                                <tr>
+                                    <th class="text-center">{KEY}</th>
+                                    <td class="text-center">{CONTENT}</td>
+                                    <td class="text-center">{NGUOI_TAO}</td>
+                                    <td class="text-center">{NGAY_TAO}</td>
+                                </tr>
+                                <!-- END: loop -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<!-- END: main -->

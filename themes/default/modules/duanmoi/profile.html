@@ -1,0 +1,75 @@
+<!-- BEGIN: main--> 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<div class="row">
+   <div class="col-md-24" style="margin-top: 20px;">
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        Danh sách lịch sử đóng góp
+      </div>
+      <div class="panel-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="bg-primary">
+                <tr class="text-nowrap">
+                  <th class="text-center">STT</th>
+                  <th class="text-center">Tên dự án</th>
+                  <th class="text-center">Mã dự án</th>
+                  <th class="text-center">Số tiền đóng góp</th>
+                  <th class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody class="text-nowrap">
+                <!-- BEGIN: lich_su_client--> 
+                <tr>
+                  <th class="text-center">{K}</th>
+                  <td class="text-center">{V.ten_du_an}</td>
+                  <td class="text-center">{V.ma_du_an}</td>
+                  <td  class="text-center">{V.so_tien_quyen_gop} đ</td>
+                  <td class="text-center">
+                    <a href="{V.url_chi_tiet}"><button class="btn btn-info">Tới dự án -></button></a>
+                  </td>
+                </tr>
+                <!-- END: lich_su_client-->
+              </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+   </div>
+ </div>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<div>
+    {err}
+</div>
+<script>
+    $(document).ready(function(){
+        $("#updateProfile").click(function(){
+          console.log(image);
+            var anh = image.files[0];
+            var payload = new FormData();
+                payload.append('anh', anh);
+                payload.append('ho_va_ten', $("#ho_va_ten").val());
+                payload.append('email', $("#email").val());
+                payload.append('so_dien_thoai', $("#so_dien_thoai").val());
+                payload.append('link_fb', $("#link_fb").val());
+                $.ajax({
+                url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=profile&updateProfile=1', 
+                type        : 'post',
+                data        : payload, 
+                dataType    : 'text',
+                cache       : false,
+                contentType : false,
+                processData : false,
+                success: function(res){
+                   if(res){
+                        toastr.success('Cập nhật thông tin thành công');
+                        setTimeout(() => {
+                           location.reload();     
+                        }, 500);
+                   }
+                }
+            });         
+        });
+    });
+</script>
+<!-- END: main-->

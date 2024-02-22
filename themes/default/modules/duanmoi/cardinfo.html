@@ -1,0 +1,82 @@
+<!-- BEGIN: main -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<div class="row">
+    <div class="col-md-14">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>Cấu Hình Card Profile</h3>
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group">
+                      <label>Slogan</label>
+                      <input type="text" class="form-control" id="slogan" value="{INFO.slogan}">
+                    </div>
+                    <div class="form-group">
+                        <label>Facebook</label>
+                        <input type="text" class="form-control" id="facebook" value="{INFO.facebook}">
+                    </div>
+                    <div class="form-group">
+                        <label>Instagram</label>
+                        <input type="text" class="form-control" id="instagram" value="{INFO.instagram}">
+                    </div>
+                    <div class="text-right">
+                        <button type="button" id="update" class="btn btn-primary">Cập Nhập</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-10">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>Thông Tin</h3>
+            </div>
+            <div class="panel-body text-center">
+                <img src="/nukeviet/{USER.photo}" class="img-rounded" width="66%" style="border-radius: 40%;" alt="Cinque Terre">
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <p><b>Họ Và Tên: </b>{USER.first_name} {USER.last_name}</p>
+                </div>
+                <div class="row">
+                    <p><b>Email: </b>{USER.email}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<div>
+    {err}
+</div>
+<script>
+    $(document).ready(function(){
+        $("#update").click(function(){
+            var payload = new FormData();
+            payload.append('facebook', $('#facebook').val());
+            payload.append('instagram', $('#instagram').val());
+            payload.append('slogan',   $('#slogan').val());
+            $.ajax({
+                url         : script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=cardinfo&update=1', 
+                type        : 'post',
+                data        : payload, 
+                dataType    : 'json',
+                cache       : false,
+                contentType : false,
+                processData : false,
+                success: function(res){
+                    if(res.status){
+                        toastr.success(res.mess);
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+                    }else{
+                        toastr.error(res.mess);
+                    }
+                }
+            });    
+        });
+    });
+</script>
+<!-- END: main -->

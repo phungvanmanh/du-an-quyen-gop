@@ -1,0 +1,204 @@
+<!-- BEGIN: main -->
+<style>
+    .table>tbody>tr>td{
+        vertical-align: middle;
+    }
+    .table>tbody>tr>th{
+        vertical-align: middle;
+    }
+</style>
+<script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<div class="row">
+    <div class="col-md-24">
+        <div class="col-md-24">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3>Danh sách dự án không được duyệt</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="text-center text-nowrap">#</th>
+                                    <th class="text-center text-nowrap">Tên dự án</th>
+                                    <th class="text-center text-nowrap">Số tiền</th>
+                                    <th class="text-center text-nowrap">Mô tả ngắn</th>
+                                    <th class="text-center text-nowrap">Mô tả chi tiết</th>
+                                    <th class="text-center text-nowrap">Hình ảnh</th>
+                                    <th class="text-center text-nowrap">Người tạo</th>
+                                    <th class="text-center text-nowrap">Chức năng</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- BEGIN: list--> 
+                                <tr class="text-center">
+                                    <th>{KEY}</th>
+                                    <td>{VALUE.ten_du_an}</td>
+                                    <td>{VALUE.so_tien}</td>
+                                    <td class="text-center">
+                                        <button class="motangan btn btn-primary" data-id="{VALUE.id}" data-toggle="modal" data-target="#motangan">
+                                        <em class="fa fa-sharp fa-solid fa-info"></em>
+                                        </button>
+                                    </td>
+                                    <td class="text-center">
+                                        <button class="motachitiet btn btn-primary" data-id="{VALUE.id}"
+                                            data-toggle="modal" data-target="#motachitiet">
+                                            <em class="fa fa-sharp fa-solid fa-info"></em>
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <img src="{VALUE.hinh_anh}" style="width: 150px;">
+                                    </td>
+                                    <td>{NAME}</td>
+                                    <td class="text-center text-nowrap">
+                                        <button class="chuyen btn btn-primary" data-id="{VALUE.id}">Chuyển về dự án</button>
+                                        <button class="del btn btn-danger" data-id="{VALUE.id}">Xoa</button>
+                                    </td>
+                                </tr>
+                                <!-- END: list-->
+                            </tbody>
+                        </table>
+                        <div id="motachitiet" class="modal fade" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Mô tả chi tiết</h4>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <p id="mo_ta_chi_tiet"></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div>
+                        <div id="motangan" class="modal fade" role="dialog">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Mô tả ngắn</h4>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <p id="mo_ta_ngan"></p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('body').on('click', '.chuyen', function() {
+            var id_chuyen = $(this).data('id');
+            var payload = new FormData();
+                payload.append('id_chuyen', id_chuyen);
+
+            $.ajax({
+                url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=duankhongduyet&chuyen=1', 
+                type        : 'post',
+                data        : payload, 
+                dataType    : 'text',
+                cache       : false,
+                contentType : false,
+                processData : false,
+                success: function(res){
+                    if(res == 'success'){
+                        toastr.success('Đã chuyển về danh sách các dự án chờ duyệt ');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+                    }else{
+                        toastr.error('Khong the xoa da co loi');
+                    }
+                }
+            });        
+        });
+
+        $('body').on('click', '.del', function() {
+            var id = $(this).data('id');
+            var payload = new FormData();
+                payload.append('id', id);
+
+            $.ajax({
+                url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=duankhongduyet&delete=1', 
+                type        : 'post',
+                data        : payload, 
+                dataType    : 'text',
+                cache       : false,
+                contentType : false,
+                processData : false,
+                success: function(res){
+                    if(res == 'success'){
+                        toastr.success('Xóa dự án không duyệt thành công !');
+                        setTimeout(() => {
+                            location.reload();
+                        }, 500);
+                    }else{
+                        toastr.error('Khong the xoa da co loi');
+                    }
+                }
+            });        
+        });
+
+
+
+        $('body').on('click', '.motachitiet', function () {
+            var id = $(this).data('id');
+            var payload = new FormData();
+            payload.append('id', id);
+            $.ajax({
+                url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=danhsach&motachitiet=1',
+                type: 'post',
+                data: payload,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    var data = JSON.parse(res);
+                    console.log(data);
+                    $("#mo_ta_chi_tiet").html(data.mo_ta_chi_tiet);
+                }
+            });
+
+        });
+
+        $('body').on('click', '.motangan', function () {
+            var id = $(this).data('id');
+            var payload = new FormData();
+            payload.append('id', id);
+            $.ajax({
+                url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=danhsach&motangan=1',
+                type: 'post',
+                data: payload,
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: function (res) {
+                    var data = JSON.parse(res);
+                    console.log(data);
+                    $("#mo_ta_ngan").html(data.mo_ta_ngan);
+                }
+            });
+
+        });
+
+    });
+</script>
+<!-- END: main -->

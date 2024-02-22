@@ -1,0 +1,106 @@
+<!-- BEGIN: main -->
+<script src="https://cdn.ckeditor.com/4.20.0/standard/ckeditor.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-tagsinput/0.8.0/bootstrap-tagsinput.min.js" integrity="sha512-9UR1ynHntZdqHnwXKTaOm1s6V9fExqejKvg5XMawEMToW4sSw+3jtLrYfZPijvnwnnE8Uol1O9BcAskoxgec+g==" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<div class="row">
+    <div class="col-md-18">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3>Thêm mới dự án</h3>
+            </div>
+            <div class="panel-body">
+                <form>
+                    <div class="form-group">
+                      <label>Tên dự án</label>
+                      <input type="text" class="form-control" id="ten_du_an">
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả ngắn</label>
+                        <textarea name="mo_ta_ngan"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Mô tả chi tiết</label>
+                        <textarea name="mo_ta_chi_tiet"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Tiền quyên góp</label>
+                        <input type="number" class="form-control" id="so_tien">
+                    </div>
+                    <div class="form-group">
+                        <label>Hình ảnh</label>
+                        <input type="file" class="form-control" id="image" multiple>
+                    </div>
+                    <div class="form-group">
+                        <label>Thời hạn</label>
+                        <input type="date" class="form-control" id="thoi_han">
+                    </div>
+                    <!-- <div class="form-group">
+                        <label>Tag</label>
+                        <input type="text" data-role="tagsinput" id="tags_input"/>
+                    </div> -->
+                    <div class="form-group">
+                        <label>Trạng thái</label>
+                        <select id="is_open" class="form-control">
+                            <option value="1">Hiển thị</option>
+                            <option value="2">Tạm tắt</option>
+                        </select>
+                    </div>
+                    <div class="text-right">
+                        <button type="button" id="create" class="btn btn-primary">Thêm mới</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    CKEDITOR.replace( 'mo_ta_ngan' );
+    CKEDITOR.replace( 'mo_ta_chi_tiet' );
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#test").click(function(){
+            var tagInputEle = $('#tags-input').tagsinput('items');
+            console.log(tagInputEle);
+        });
+        $("#create").click(function(){
+            var anh = image.files;
+            var mo_ta_chi_tiet = CKEDITOR.instances.mo_ta_chi_tiet.getData();
+            var mo_ta_ngan = CKEDITOR.instances.mo_ta_ngan.getData();
+            var payload = new FormData();
+                payload.append('mo_ta_chi_tiet', mo_ta_chi_tiet);
+                payload.append('mo_ta_ngan', mo_ta_ngan);
+                for (var i = 0; i < anh.length; i++) {
+                    payload.append('anh_' + i, anh[i]);      
+                }
+                // payload.append('id_tag',    $('#tags_input').val());
+                payload.append('ten_du_an', $('#ten_du_an').val());
+                payload.append('thoi_han',  $('#thoi_han').val());
+                payload.append('so_tien',   $('#so_tien').val());
+                payload.append('is_open',   $('#is_open').val());
+                payload.append('so_luong_anh',   anh.length);
+                $.ajax({
+                    url: script_name + '?' + nv_name_variable + '=' + nv_module_name + '&' + nv_fc_variable + '=main&themmoi=1', 
+                    type        : 'post',
+                    data        : payload, 
+                    dataType    : 'json',
+                    cache       : false,
+                    contentType : false,
+                    processData : false,
+                    success: function(res){
+                        if(res.status) {
+                            toastr.success(res.mess);
+                            setTimeout(() => {
+                                location.reload();
+                            }, 500);
+                        } else {
+                            toastr.error(res.mess);
+                        }
+                    }
+                });    
+        });
+    });
+</script>
+<!-- END: main -->

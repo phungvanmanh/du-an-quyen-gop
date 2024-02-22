@@ -1,0 +1,10 @@
+V1.0
+    * Thêm mới dự án từ thiện 
+    * Chỉnh Sửa dự án từ thiện 
+    * Xem lịch sử quyên góp của toàn dự án
+    * Tự động thêm mới user khi donate nếu chưa có tài khoản 
+    * Tự động gởi mail và tài khoản đăng nhập tới cho user
+    * Hiển thị lịch sử giao dịch của user trong từng dự án
+    * Tạo card profile cho user mới 
+    * Donate tự động qua Paypal
+
